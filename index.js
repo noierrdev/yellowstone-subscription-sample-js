@@ -7,9 +7,6 @@ const PUMPFUN_BONDINGCURVE="6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
 const SOL_MINT_ADDRESS = 'So11111111111111111111111111111111111111112';
 
 
-
-//This functions is invoked recursively when grpc connection is closed or crashed.
-//So that we dont have to restart bot when grpc is crashed...
 function connectGeyser(){
     const client =new Client.default("http://127.0.0.1:10000/",undefined,undefined);
     client.getVersion()
@@ -61,13 +58,11 @@ function connectGeyser(){
                         allAccounts.push(accountID);
                     })
 
-                    const signers=allAccounts.slice(0,transaction.transaction.signatures.length)//signer's wallet
+                    const signers=allAccounts.slice(0,transaction.transaction.signatures.length)
 
-                    //filter out txs from only Raydium and Pumpfun
                     if(allAccounts.includes(PUMPFUN_BONDINGCURVE)||allAccounts.includes(RAYDIUM_OPENBOOK_AMM)){
                         const currentTime=new Date()
 
-                        //collecting all instructions even inner instructions, that is helpful, if wallet uses on-chain program for swap.
                         var allInstructions=transaction.transaction.message.instructions
 
                         for(var oneInnerInstruction of transaction.meta.innerInstructions){
@@ -106,7 +101,8 @@ function connectGeyser(){
                             console.log({targetToken,marketId,signers,solVault,tokenVault,marketAccountKey})
                             console.log(`====================================================================`)
                         }
-                        //
+
+                        //Pumpfun
                         else if(allAccounts.includes(PUMPFUN_BONDINGCURVE)){
                             //Launch
                             if(transaction.meta.logMessages.some(log=>log.includes("Program log: Instruction: InitializeMint2"))){
@@ -140,7 +136,6 @@ function connectGeyser(){
                             }
                             //SWAP
                             else if(transaction.meta.logMessages.some(log=>log.includes("Program log: Instruction: Buy"))||transaction.meta.logMessages.some(log=>log.includes("Program log: Instruction: Sell"))){
-                                // return
                                 const swapInstruction=allInstructions.find(instruction =>allAccounts[instruction.programIdIndex]==PUMPFUN_BONDINGCURVE);
                                 if(swapInstruction){
                                     var bondingCurve=null;
