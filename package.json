@@ -9,6 +9,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@triton-one/yellowstone-grpc": "^4.0.0"
+    "@triton-one/yellowstone-grpc": "^4.0.0",
+    "bs58": "^6.0.0"
   }
 }
