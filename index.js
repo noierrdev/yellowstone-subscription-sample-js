@@ -125,20 +125,17 @@ function connectGeyser(){
                                 if(!bondingCurveTokenBalance){
                                     return
                                 }
+                                const leftSol=85000000000-transaction.meta.postBalances[createInstruction.accounts[2]];
+                                const leftTokens=bondingCurveTokenBalance.uiTokenAmount.uiAmount - 206900000;
                                 const bondingCurveRealPercent=100 - (((bondingCurveTokenBalance.uiTokenAmount.uiAmount - 206900000) * 100) / 793100000)
                                 console.log(`======PUMPFUN - New Token=======================================================`)
                                 console.log(`https://solscan.io/tx/${sig}`);
                                 console.log({signer:allAccounts[0]});
                                 console.log(`https://photon-sol.tinyastro.io/en/lp/${bondingCurve}`)
-                                console.log(`created at ${((allTokens[targetToken].lastTrade-allTokens[targetToken].created)/60000).toFixed(2)} mins ago`)
                                 console.log({targetToken})
                                 console.log(`${bondingCurveRealPercent} %`)
-                                console.log(`${allTokens[targetToken].leftSol/(10**9).toFixed(2)} SOL left`)
-                                console.log(`${allTokens[targetToken].leftTokens} TOKENS left`)
-                                console.log(`Buys : ${allTokens[targetToken].buys}`)
-                                console.log(`Sells : ${allTokens[targetToken].sells}`)
-                                console.log(`Total : ${allTokens[targetToken].total}`)
-                                console.log(`Max Buy amount : ${(allTokens[targetToken].maxBuy/(10**9)).toFixed(2)} SOL`)
+                                console.log(`${leftSol/(10**9).toFixed(2)} SOL left`)
+                                console.log(`${leftTokens} TOKENS left`)
                                 console.log(`====================================================================`)
                             }
                             //SWAP
