@@ -42,22 +42,22 @@ function connectGeyser(){
             stream.on("data", async (data) => {
                 if(data.transaction&&data.transaction.transaction&&data.transaction.transaction.signature) {
                     const transaction=data.transaction.transaction;
-                    const sig=bs58.encode(data.transaction.transaction.signature);
+                    const sig=bs58.default.encode(data.transaction.transaction.signature);
                     const allAccounts=[];
                     transaction.transaction.message.accountKeys.map((account,index)=>{
                         if(!account) return;
-                        const accountID=bs58.encode(account);
+                        const accountID=bs58.default.encode(account);
                         allAccounts.push(accountID);
                     })
 
                     transaction.meta.loadedWritableAddresses.map((account,index)=>{
                         if(!account) return;
-                        const accountID=bs58.encode(account);
+                        const accountID=bs58.default.encode(account);
                         allAccounts.push(accountID);
                     })
                     transaction.meta.loadedReadonlyAddresses.map((account,index)=>{
                         if(!account) return;
-                        const accountID=bs58.encode(account);
+                        const accountID=bs58.default.encode(account);
                         allAccounts.push(accountID);
                     })
 
